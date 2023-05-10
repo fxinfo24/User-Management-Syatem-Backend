@@ -29,10 +29,17 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    // Send data to MongoDB database
+    const database = client.db("usersDB");
+
+    const userCollection = database.collection("haiku");
+
     app.post('/users', async(req, res) => {
         console.log('Post API Hitting Server');
         const user = req.body;
         console.log('New user', user);
+        const result = await userCollection.insertOne(user);
+        res.send(result);
     });
 
     // Send a ping to confirm a successful connection
@@ -73,7 +80,7 @@ app.listen(port, () => {
 
 
 
-/** Explanation of the upper codes
+/** Explanation of the upper
  * The upper code is a Node.js server application that uses the Express framework to implement a REST API for user management. Here is a brief overview of what is happening in the code:
 
 First, the required Node.js packages and libraries are imported, including the Express framework, the MongoDB client, and the cors middleware. The server is then set up by creating an instance of the Express app and defining a few middleware functions using the use method. Specifically, the cors and express.json() middleware are used.
