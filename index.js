@@ -34,6 +34,14 @@ async function run() {
 
     const userCollection = database.collection("haiku");
 
+    // "R" from CRUD operations
+    app.get('/users', async(req, res) => {
+        const cursor = userCollection.find({})
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+    
+    // 'C' from CRUD operations
     app.post('/users', async(req, res) => {
         console.log('Post API Hitting Server');
         const user = req.body;
@@ -59,15 +67,16 @@ app.get('/', (req, res) =>{
     res.send('User Management server is running')
 });
 
-const users = [
-    {"id": 1, "name": "Tom", "email": "tom@mail.com"},
-    {"id": 2, "name": "Dik", "email": "dik@mail.com"},
-    {"id": 3, "name": "Harry", "email": "harry@mail.com"},
-];
+// Now we don't need these in-memory data as we successfully post/get data from MongoDB
+// const users = [
+//     {"id": 1, "name": "Tom", "email": "tom@mail.com"},
+//     {"id": 2, "name": "Dik", "email": "dik@mail.com"},
+//     {"id": 3, "name": "Harry", "email": "harry@mail.com"},
+// ];
 
-app.get('/users', (req, res) => {
-    res.send(users);
-});
+// app.get('/users', (req, res) => {
+//     res.send(users);
+// });
 
 // app.post('/users', (req, res) => {
 //     console.log('Post API Hitting Server');
